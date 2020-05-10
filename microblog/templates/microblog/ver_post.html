@@ -1,0 +1,30 @@
+{% extends 'microblog/_layouts/base.html' %}
+
+{% block content %}
+
+<div class="col-md-8 blog-main">
+    <div class="blog-post">
+        <h2 class="blog-post-title">
+            {{ post.titulo }}
+        </h2>
+
+        <p class="blog-post-meta">
+            Postado em {{ post.data|date:"d/m/Y" }} às 10:00 PM por
+            <a href="{% url 'microblog:usuario_view' pk=post.autor.id %}">{{ post.autor.get_full_name }}</a>
+            <br>
+            Categoria: <a href="{% url 'microblog:categoria_view' url=post.categoria.url %}">{{ post.categoria.titulo }}</a>
+        </p>
+
+        <p class="border-bottom">
+            {{ post.preview }}
+            <br>
+            <br>
+        </p>
+
+        <br>
+
+        {{ post.corpo|safe }}
+    </div><!-- /.blog-post -->
+</div>
+
+{% endblock %}

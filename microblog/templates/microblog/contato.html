@@ -1,0 +1,40 @@
+{% extends 'microblog/_layouts/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="col-md-6 blog-main">
+	<h1 class="page-header">
+		Contato
+	</h1>
+
+	{% if submitted %}
+		<p class="success">
+			Mensagem enviada com sucesso. Entraremos em contato em breve!
+		</p>
+	{% else %}
+		<form action="" method="post" novalidate>
+			<table>
+				{{ form|crispy }}
+				<tr>
+					<td>&nbsp;</td>
+					<button type="submit" class="btn btn-success btn-block">Enviar</button>
+				</tr>
+			</table>
+
+			{% csrf_token %}
+		</form>
+	{% endif %}
+</div>
+
+{% if not submitted %}
+	<div class="col-md-6 blog-main">
+		<div>
+			<h4>Como chegar ao escritório do blog Django:</h4>
+			<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9525.53917737438!2d-6.246303531854021!3d53.35426808181959!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48670ef458c0b063%3A0x30bb189ec7221d56!2s23%20Hawthorn%20Terrace%2C%20East%20Wall%2C%20Dublin%2C%20D03%20KX85!5e0!3m2!1spt-BR!2sie!4v1588178337159!5m2!1spt-BR!2sie" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+		</div>
+	</div>
+{% endif %}
+
+{% endblock %}
+

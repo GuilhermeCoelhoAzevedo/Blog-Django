@@ -1,0 +1,66 @@
+{% extends 'microblog/_layouts/base.html' %}
+
+{% block mainPost %}
+
+{% if posts %}
+    <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
+        <div class="col-md-6 px-0">
+            <h1 class="display-4 font-italic">{{ latest.titulo }}</h1>
+            <p class="lead my-3">{{ latest.preview }}</p>
+            <p class="lead mb-0"><a href="{% url 'microblog:ver_post' url=latest.url %}" class="text-white font-weight-bold">Continuar lendo...</a></p>
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="col-md-8 blog-main">
+    <h3 class="pb-3 mb-4 font-italic border-bottom">
+        Autor: {{ usuario.get_full_name }}
+    </h3>
+
+    {% if posts %}
+        {% for post in posts %}
+            <div class="row sm border-bottom">
+                <div class="blog-post">
+                    <h2 class="blog-post-title"><a href="{% url 'microblog:ver_post' url=post.url %}">{{ post.titulo }}</a></h2>
+
+                    <p class="blog-post-meta">
+                        Postado em {{ post.data|date:"d/m/Y" }} por
+                        <a href="{% url 'microblog:usuario_view' pk=post.autor.id %}">{{ post.autor.get_full_name }}</a>
+                    </p>
+
+                    {% if post.imagem %}
+                        <img src=" {{ post.getImagem }} " alt="PostImage" style="width:300px;height:200px;float:left;padding: 10px;">
+                    {% endif %}
+
+                    {{ post.preview }}
+
+                    <p class="blog-post-meta">
+                        Categoria: <a href="{% url 'microblog:categoria_view' url=post.categoria.url %}">{{ post.categoria.titulo }}</a>
+                    </p>
+                </div><!-- /.blog-post -->
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Não há nenhum post adicionado.</p>
+    {% endif %}
+
+    <nav class="blog-pagination">
+        {% if posts.has_previous %}
+            <a class="btn btn-outline-primary" href="?page={{ posts.previous_page_number }}">Anterior</a>
+        {% else %}
+            <a class="btn btn-outline-secondary disabled" href="#">Anterior</a>
+        {% endif %}
+
+        {% if posts.has_next %}
+            <a class="btn btn-outline-primary" href="?page={{ posts.next_page_number }}">Próximo</a>
+        {% else %}
+            <a class="btn btn-outline-secondary disabled" href="#">Próximo</a>
+        {% endif %}
+    </nav>
+</div><!-- /.blog-main -->
+
+{% endblock %}
